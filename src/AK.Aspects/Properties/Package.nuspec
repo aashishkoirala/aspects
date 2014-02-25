@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Aspects</id>
+    <title>Aspects for .NET</title>
+    <version>0.1.0</version>
+    <authors>Aashish Koirala</authors>
+    <owners>Aashish Koirala</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>aspect aspects aop mef aashish koirala</tags>
+    <summary>Lets you apply aspects to your classes at runtime and build new aspects; also provides MEF integration.</summary>
+    <description>
+      Lets you apply aspects to your classes at runtime and build new aspects; also provides MEF integration.
+      For more detailed information and documentation, please visit the GitHub page at http://aashishkoirala.github.io/aspects. You can find more of my stuff by visiting my page at http://aashishkoirala.github.io.
+      The package is free to download and use. The source code is open and provided under the GPL license.
+    </description>
+    <copyright>Copyright © 2014 Aashish Koirala</copyright>
+    <projectUrl>http://aashishkoirala.github.io/aspects/</projectUrl>
+    <licenseUrl>http://www.gnu.org/licenses/gpl.html</licenseUrl>
+  </metadata>
+</package>
