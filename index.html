@@ -1,55 +1,69 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="Aspects for .NET by Aashish Koirala">
+		<title>Aspects for .NET | Aashish Koirala</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>		
+		<script type="text/javascript" src="http://aashishkoirala.github.io/scripts/bootstrap.min.js"></script>
+		<!--[if lt IE 9]>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Aspects : Aspects for .NET" />
+	<body>
+		<div class="container">
+			<header>
+			    <div class="row">
+			        <div class="span4">
+			            <a href="http://aashishkoirala.github.io" style="text-decoration: none">
+			                <h2 class="muted" style="font-weight: normal" title="Aashish Koirala">aashish<b>koirala</b></h2>
+			            </a>
+			        </div>
+			        <div class="span8 pull-right" style="padding-top: 10px">
+			            <div class="pull-right">
+			                <a title="Aashish Koirala on GitHub" href="http://github.com/aashishkoirala"><img alt="Aashish Koirala on GitHub" src="http://aashishkoirala.github.io/images/github.png" width="32" height="32" style="width: 32px; height: 32px"/></a>
+			                <a title="Aashish Koirala on Twitter" href="http://twitter.com/aashishkoirala"><img alt="Aashish Koirala on Twitter" src="http://aashishkoirala.github.io/images/twitter.png" width="32" height="32" style="width: 32px; height: 32px"/></a>
+			                <a title="Aashish Koirala on LinkedIn" href="http://www.linkedin.com/in/aashishkoirala"><img alt="Aashish Koirala on LinkedIn" src="http://aashishkoirala.github.io/images/linkedin.png" width="32" height="32" style="width: 32px; height: 32px"/></a>
+							<a title="Go to My Blog" href="http://aashishkoirala.wordpress.com"><img alt="Go to My Blog" src="https://secure.gravatar.com/avatar/100f2280ecbf23438d15db61ad1e3ba0" width="32" height="32" style="width: 32px; height: 32px"/></a>
+			            </div>
+			        </div>
+			    </div>
+			</header>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Aspects</title>
-  </head>
-
-  <body>
-
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/aashishkoirala/aspects">View on GitHub</a>
-
-          <h1 id="project_title">Aspects</h1>
-          <h2 id="project_tagline">Aspects for .NET</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/aashishkoirala/aspects/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/aashishkoirala/aspects/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
-<a name="aspects-for-net" class="anchor" href="#aspects-for-net"><span class="octicon octicon-link"></span></a><a href="http://aashishkoirala.github.io/aspects/">Aspects for .NET</a>
-</h1>
-
-<h3>
-<a name="aspect-oriented-programing-support-for-net" class="anchor" href="#aspect-oriented-programing-support-for-net"><span class="octicon octicon-link"></span></a>Aspect Oriented Programing Support for .NET</h3>
-
-<hr><h5>
-<a name="by-aashish-koirala" class="anchor" href="#by-aashish-koirala"><span class="octicon octicon-link"></span></a>By <a href="http://aashishkoirala.github.io">Aashish Koirala</a>
-</h5>
-
-<p>Aspects for .NET is a library that you can use to add aspect orientation to your .NET application. It provides interfaces that you can implement to build your own aspects which you can then apply to your implementation classes. It also then provides a mechanism to wrap, at runtime, your implementation with aspects (and no, it does not mess with the MSIL post-compilation). There is also integrated support for MEF, albeit with some limitations.</p>
-
-<h4>
-<a name="in-a-nutshell" class="anchor" href="#in-a-nutshell"><span class="octicon octicon-link"></span></a>In a Nutshell</h4>
-
-<p>Say you have an aspect attribute <code>MyAspectAttribute</code> applied to an implementation <code>MyImplementation</code> that implements the contract <code>IMyContract</code>:</p>
-
-<pre><code>public interface IMyContract
+		    <section id="main-content">
+		        <div class="well">
+		            <h3>Aspects for .NET</h3>
+					<h4>Aspect Oriented Programming Support for .NET</h4>
+		            <ul>
+		                <li><a href="http://github.com/aashishkoirala/aspects">Go to GitHub Repository</a></li>
+		                <li><a href="https://www.nuget.org/packages/aspects/">Aspects for .NET on NuGet</a></li>
+		            </ul>
+                    <br/>
+						Aspects for .NET is a library that you can use to add aspect orientation to your .NET application. It provides interfaces that you can implement to build your own aspects which you can then apply to your implementation classes. It also then provides a mechanism to wrap, at runtime, your implementation with aspects (and no, it does not mess with the MSIL post-compilation). There is also integrated support for MEF, albeit with some limitations.</div>
+				<div class="row">
+					<div class="tabbable span3">
+						<ul class="nav nav-pills nav-stacked">
+						  <li class="active"><a href="#nutshell_tab" data-toggle="tab">In A Nutshell</a></li>
+						  <li><a href="#installation_tab" data-toggle="tab">Installation</a></li>
+						  <li><a href="#how_it_works_tab" data-toggle="tab">How It Works</a></li>
+						  <li><a href="#mef_support_tab" data-toggle="tab">MEF Support</a></li>
+						  <li><a href="#creating_aspects_tab" data-toggle="tab">Creating Aspects</a></li>
+						  <hr/>
+						  <li><a href="#tos_tab" data-toggle="tab">Terms of Use</a></li>
+						  <li><a href="#privacy_tab" data-toggle="tab">Privacy</a></li>
+						</ul>
+					</div>
+					<div class="tab-content span9">
+						<div class="tab-pane active" id="nutshell_tab">
+							<h5>In A Nutshell</h5>
+							Say you have an aspect attribute <code>MyAspectAttribute</code> applied to an implementation <code>MyImplementation</code> that implements the contract <code>IMyContract</code>:<br/><br/>
+							<blockquote><pre>
+public interface IMyContract
 {
     void DoThing();
 }
@@ -61,76 +75,59 @@ public class MyImplementation : IMyContract
     {
         // ... Do stuff
     }
-}
-</code></pre>
+}</pre></blockquote>
+						Then, you can get an "aspectized" instance like so:<br/><br/>
+							<blockquote><pre>
+var myInstance = AspectHelper.Wrap&lt;IMyContract&gt;(new MyImplementation());
+myInstance.DoThing();</pre></blockquote>
+						</div>
+						<div class="tab-pane" id="installation_tab">
+							<h5>Installation</h5>
+							Download the NuGet package <a href="http://nuget.org/packages/aspects/">Aspects</a> and add to your application:<br/><br/>
 
-<p>Then, you can get an "aspectized" instance like so:</p>
-
-<pre><code>var myInstance = AspectHelper.Wrap&lt;IMyContract&gt;(new MyImplementation());
-myInstance.DoThing();
-</code></pre>
-
-<h4>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h4>
-
-<p>Download the NuGet package <a href="https://www.nuget.org/packages/aspects/">Aspects</a> and add to your application:</p>
-
-<pre><code>Install-Package Aspects
-</code></pre>
-
-<h4>
-<a name="how-it-works" class="anchor" href="#how-it-works"><span class="octicon octicon-link"></span></a>How It Works</h4>
-
-<p>When you call <code>Wrap</code>, it inspects the contract interface and implementation class using reflection. It uses <code>CodeDOM</code> to generate an on-the-fly implementation of the contract interface, which expects an instance of the implementation to be initialized, and where each member simply calls out to the implementation (i.e. a hollow wrapper). However, in the process, it also inspects the implementation member to see if any aspect attributes are applied and adds code at appropriate places before or after the invocation to execute those aspects. The type that is generated on the fly is cached in memory.</p>
-
-<p>There are also overloads of the <code>Wrap</code> method in the <code>AspectHelper</code> class that support lazy instantiation, as well as a corresponding set of <code>WrapMany</code> methods that deal with multiple instances. In addition, two events <code>CodeGenerated</code> and <code>CodeCompiled</code> are provided that you can handle to inspect or change the generated output.</p>
-
-<h4>
-<a name="mef-support" class="anchor" href="#mef-support"><span class="octicon octicon-link"></span></a>MEF Support</h4>
-
-<p>Going back to the previous example, if <code>MyImplementation</code> is also a MEF export for <code>IMyContract</code>, like so:</p>
-
-<pre><code>[Export(typeof(IMyContract))]
-public class MyImplementation { .... }
-</code></pre>
-
-<p>And you're MEF-importing <code>IMyContract</code> like so:</p>
-
-<pre><code>[Import] IMyContract myContract
-</code></pre>
-
-<p>You can easily inject aspects by following these steps:</p>
-
-<ol>
-<li>
-<p>In your startup routine, after you've composed your MEF container (say <code>myContainer</code>), call the following:</p>
-
-<pre><code>AspectHelper.RegisterForComposition(myContainer, /* list of assemblies to scan for MEF exports */);
-</code></pre>
-</li>
-<li>
-<p>Modify your import declaration as:</p>
-
-<pre><code>[Import(typeof(IAspected&lt;IMyContract&gt;))] IMyContract myContract
-</code></pre>
-</li>
-</ol><p>There are a few limitations though:</p>
-
-<ul>
-<li>You must use an <code>AggregateCatalog</code> to compose the container.</li>
-<li>Exports with multiple cardinalities are not supported (i.e. does not work with <code>ImportMany</code>).</li>
-<li>Support for derivations of <code>Export</code> (e.g. <code>InheritedExport</code>) has not been tested.</li>
-<li>Support for metadata attributes has not been tested.</li>
-</ul><h4>
-<a name="creating-aspects" class="anchor" href="#creating-aspects"><span class="octicon octicon-link"></span></a>Creating Aspects</h4>
-
-<p>Aspects can be applied to methods or properties by decorating the methods or properties with the aspect attribute class. You can also decorate the class - which will apply the aspect to all properties or methods within the class that belong to the contract. If multiple aspects of the same type are applied, they are executed in order as defined by the <code>Order</code> property. Three types of aspects are supported:</p>
-
-<ul>
-<li>
-<p><strong>Entry Aspect</strong>: Executed as soon as control enters into the method or property. To create an entry aspect, create an attribute class (i.e. one that inherits from <code>Attribute</code>) that implements <code>IEntryAspect</code>.</p>
-
-<pre><code>public class MyEntryAspectAttribute : Attribute, IEntryAspect
+							<code>Install-Package Aspects</code>
+						</div>
+						<div class="tab-pane" id="how_it_works_tab">
+							<h5>How It Works</h5>
+							When you call <code>Wrap</code>, it inspects the contract interface and implementation class using reflection. It uses CodeDOM to generate an on-the-fly implementation of the contract interface, which expects an instance of the implementation to be initialized, and where each member simply calls out to the implementation (i.e. a hollow wrapper). However, in the process, it also inspects the implementation member to see if any aspect attributes are applied and adds code at appropriate places before or after the invocation to execute those aspects. The type that is generated on the fly is cached in memory.
+							<br/><br/>
+							There are also overloads of the <code>Wrap</code> method in the <code>AspectHelper</code> class that support lazy instantiation, as well as a corresponding set of <code>WrapMany</code> methods that deal with multiple instances. In addition, two events <code>CodeGenerated</code> and <code>CodeCompiled</code> are provided that you can handle to inspect or change the generated output.						
+						</div>
+						<div class="tab-pane" id="mef_support_tab">
+							<h5>MEF Support</h5>							
+							Going back to the previous example, if <code>MyImplementation</code> is also a MEF export for <code>IMyContract</code>, like so:<br/><br/>
+							<blockquote><pre>
+[Export(typeof(IMyContract))]
+public class MyImplementation { .... }</pre></blockquote>
+							And you're MEF-importing <code>IMyContract</code> like so:<br/><br/>
+							<blockquote><pre>
+[Import] IMyContract myContract</pre></blockquote>
+							You can easily inject aspects by following these steps:<br/>
+							<ol>
+								<li>In your startup routine, after you've composed your MEF container (say <code>myContainer</code>), call the following:<br/><br/>
+							<blockquote><pre>
+AspectHelper.RegisterForComposition(myContainer, 
+	/* list of assemblies to scan for MEF exports */);</pre></blockquote></li>
+								<li>Modify your import declaration as:<br/><br/>
+							<blockquote><pre>
+[Import(typeof(IAspected&lt;IMyContract&gt;))] IMyContract myContract</pre></blockquote></li>
+							</ol>
+							<br/>
+							There are a few limitations though:
+							<ul>
+								<li>You must use an <code>AggregateCatalog</code> to compose the container.</li>
+								<li>Exports with multiple cardinalities are not supported (i.e. does not work with <code>ImportMany</code>).</li>
+								<li>Support for derivations of Export (e.g. <code>InheritedExport</code>) has not been tested.</li>
+								<li>Support for metadata attributes has not been tested.</li>
+							</ul>
+						</div>
+						<div class="tab-pane" id="creating_aspects_tab">
+							<h5>Creating Aspects</h5>
+							Aspects can be applied to methods or properties by decorating the methods or properties with the aspect attribute class. You can also decorate the class - which will apply the aspect to all properties or methods within the class that belong to the contract. If multiple aspects of the same type are applied, they are executed in order as defined by the Order property. Three types of aspects are supported:
+							<br/><br/>
+							<b>Entry Aspect:</b> Executed as soon as control enters into the method or property. To create an entry aspect, create an attribute class (i.e. one that inherits from <code>Attribute</code>) that implements <code>IEntryAspect</code>.<br/><br/>
+							<blockquote><pre>
+public class MyEntryAspectAttribute : Attribute, IEntryAspect
 {
     public bool Execute(MemberInfo memberInfo, IDictionary&lt;string, object&gt; parameters)
     {
@@ -146,13 +143,10 @@ public class MyImplementation { .... }
         // immediately. For methods that return values, in this case the default value for
         // the return type is returned.
     }   
-}
-</code></pre>
-</li>
-<li>
-<p><strong>Exit Aspect</strong>: Executed just before control leaves the method or property. To create an exit aspect, create an attribute class (i.e. one that inherits from <code>Attribute</code>) that implements <code>IExitAspect</code>.</p>
-
-<pre><code>public class MyExitAspectAttribute : Attribute, IExitAspect
+}</pre></blockquote>
+							<b>Exit Aspect</b>: Executed just before control leaves the method or property. To create an exit aspect, create an attribute class (i.e. one that inherits from <code>Attribute</code>) that implements <code>IExitAspect</code>.<br/><br/>
+							<blockquote><pre>
+public class MyExitAspectAttribute : Attribute, IExitAspect
 {
     public void Execute(MemberInfo memberInfo,
         IDictionary&lt;string, object&gt; parameters, 
@@ -165,13 +159,10 @@ public class MyImplementation { .... }
         // You get the time taken to execute the method/property in "duration".
         // Comes in handy for instrumentation.
     }
-}
-</code></pre>
-</li>
-<li>
-<p><strong>Error Aspect</strong>: Executed if an exception is thrown within the method or property. To create an error aspect, create an attribute class (i.e. one that inherits from <code>Attribute</code>) that implements <code>IErrorAspect</code>.</p>
-
-<pre><code>public class MyErrorAspectAttribute : Attribute, IErrorAspect
+}</pre></blockquote>
+							<b>Error Aspect</b>: Executed if an exception is thrown within the method or property. To create an error aspect, create an attribute class (i.e. one that inherits from <code>Attribute</code>) that implements <code>IErrorAspect</code>.<br/><br/>
+							<blockquote><pre>
+public class MyErrorAspectAttribute : Attribute, IErrorAspect
 {
     public bool Execute(MemberInfo memberInfo, 
         IDictionary&lt;string, object&gt; parameters, Exception ex)
@@ -183,22 +174,41 @@ public class MyImplementation { .... }
         // swallow it. If you swallow it and another error aspect rethrows, the final
         // result will be that the error is rethrown.
     }
-}
-</code></pre>
-</li>
-</ul><p>There you have it, AOP for you without having to depend on an IoC container or having your code messed with like PostSharp does. Quite a bit of room for improvement, though, especially on the performance (I'm guessing as I haven't run performance tests) and MEF support side.</p>
-      </section>
-    </div>
+}</pre></blockquote>
+						</div>
+						<div class="tab-pane" id="tos_tab">
+							<h5>Terms of Use</h5>
+							<ul>
+								<li>The NuGet packages are free to download and use.</li>
+								<li>The source code is provided under the GPL v3 License. You can see it <a href="https://github.com/aashishkoirala/aspects/blob/develop/LICENSE">here.</a></li>
+								<li>As with most things free, do not blame me if running this blows up your computer or infects you with Hepatitis.</li>
+								<li>If there are legit issues, please do log a GitHub issue.</li>
+							</ul>
+						</div>
+						<div class="tab-pane" id="privacy_tab">
+							<h5>Privacy</h5>
+							<ul>
+								<li>These are libraries, not hosted solutions.</li>
+								<li>Nowhere does Aspects for .NET ask you for or store any personal information.</li>
+								<li>The page you're looking at right now has a rudimentary Google Analytics scriptlet.</li>
+								<li>Identifiable information related to usage and download of the server installation is not tracked as far as I know (unless Google Analytics is doing something I am unaware of).</li>
+								<li>Download of the NuGet package is not tracked except the NuGet download counter itself.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+		    </section>
+		</div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Aspects maintained by <a href="https://github.com/aashishkoirala">aashishkoirala</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+		<script type="text/javascript">
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    
+		  ga('create', 'UA-42900227-1', 'aashishkoirala.github.io');
+		  ga('send', 'pageview');
+		</script>
 
-  </body>
+	</body>
 </html>
