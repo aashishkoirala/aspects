@@ -34,8 +34,17 @@ namespace AK.Aspects.Tests.Infrastructure
     [Export]
     public class TestMef
     {
-        [Import] private ITestContract unwrapped;
-        [Import(typeof (IAspected<ITestContract>))] private ITestContract wrapped;
+        private readonly ITestContract unwrapped;
+        private readonly ITestContract wrapped;
+
+        [ImportingConstructor]
+        public TestMef(
+            [Import] ITestContract unwrapped,
+            [Import(typeof (IAspected<ITestContract>))] ITestContract wrapped)
+        {
+            this.unwrapped = unwrapped;
+            this.wrapped = wrapped;
+        }
 
         public void ExecuteUnwrapped()
         {
