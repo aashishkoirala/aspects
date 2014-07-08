@@ -41,6 +41,7 @@ namespace AK.Aspects.Tests.Integration
         [TestInitialize]
         public void Initialize()
         {
+            AspectHelper.CodeGenerated += (sender, args) => Console.WriteLine(args.GeneratedCode);
             this.target = AspectHelper.Wrap<ITestContract>(new TestImplementation());
 
             TestResultBag.Nullify();

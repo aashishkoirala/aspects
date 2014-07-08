@@ -24,6 +24,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 #endregion
@@ -48,9 +49,15 @@ namespace AK.Aspects.Generators
             var returnsValue = methodInfo.ReturnType != typeof (void);
             var aspectInvocationExpression = this.GenerateAspectInvocationForMethod(returnsValue);
 
-            var returnValueStatement = returnsValue
-                                           ? Constructs.ReturnValueStatement
-                                           : new CodeMethodReturnStatement();
+            CodeStatement returnValueStatement;
+            if (returnsValue)
+            {
+                var returnValueExpression = new CodeCastExpression(
+                    methodInfo.ReturnType, Constructs.BoxedReturnValueExpression);
+
+                returnValueStatement = new CodeMethodReturnStatement(returnValueExpression);
+            }
+            else returnValueStatement = new CodeMethodReturnStatement();
 
             yield return new CodeConditionStatement(aspectInvocationExpression,
                                                     new CodeStatement[0],
@@ -59,15 +66,22 @@ namespace AK.Aspects.Generators
 
         public IEnumerable<CodeStatement> GenerateForPropertyGet()
         {
+            var propertyInfo = this.MemberInfo as PropertyInfo;
+            if (propertyInfo == null) throw new InvalidOperationException();
+
             yield return GenerateMethodStartStatement();
 
             var aspectInvocationExpression = this.GenerateAspectInvocationForProperty(true);
 
-            var returnValueStatement = Constructs.ReturnValueStatement;
+            var returnValueExpression = new CodeCastExpression(
+                propertyInfo.PropertyType, Constructs.BoxedReturnValueExpression);
 
-            yield return new CodeConditionStatement(aspectInvocationExpression,
-                                                    new CodeStatement[0],
-                                                    returnValueStatement.AsArray());
+            var returnValueStatement = new CodeMethodReturnStatement(returnValueExpression);
+
+            yield return new CodeConditionStatement(
+                aspectInvocationExpression,
+                new CodeStatement[0],
+                returnValueStatement.AsArray().Cast<CodeStatement>().ToArray());
         }
 
         public IEnumerable<CodeStatement> GenerateForPropertySet()
@@ -99,12 +113,15 @@ namespace AK.Aspects.Generators
             var aspectExecutorExpression = new CodeTypeReferenceExpression(typeof (AspectExecutor));
             var getCurrentMethodExpression = new CodeMethodInvokeExpression(
                 new CodeTypeReferenceExpression(typeof (MethodBase)), "GetCurrentMethod");
+            var returnValueExpression = new CodeDirectionExpression(
+                FieldDirection.Ref, Constructs.BoxedReturnValueExpression);
 
             return new CodeMethodInvokeExpression(aspectExecutorExpression,
                                                   "ExecuteEntryAspects",
                                                   Constructs.TargetFieldExpression,
                                                   getCurrentMethodExpression,
-                                                  parameterDictionaryExpression);
+                                                  parameterDictionaryExpression,
+                                                  returnValueExpression);
         }
 
         private CodeExpression GenerateAspectInvocationForProperty(bool isGet)
@@ -113,12 +130,15 @@ namespace AK.Aspects.Generators
             var aspectExecutorExpression = new CodeTypeReferenceExpression(typeof (AspectExecutor));
             var getCurrentMethodExpression = new CodeSnippetExpression(
                 string.Format("{0}.GetType().GetProperty(\"{1}\")", VariableNames.Target, this.MemberInfo.Name));
+            var returnValueExpression = new CodeDirectionExpression(
+                FieldDirection.Ref, Constructs.BoxedReturnValueExpression);
 
             return new CodeMethodInvokeExpression(aspectExecutorExpression,
                                                   "ExecuteEntryAspects",
                                                   Constructs.TargetFieldExpression,
                                                   getCurrentMethodExpression,
-                                                  parameterDictionaryExpression);
+                                                  parameterDictionaryExpression,
+                                                  returnValueExpression);
         }
     }
 }

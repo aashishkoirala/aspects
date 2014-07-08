@@ -29,8 +29,10 @@ namespace AK.Aspects
     {
         public const string Target = "target";
         public const string ReturnValue = "returnValue";
+        public const string BoxedReturnValue = "boxedReturnValue";
         public const string MethodStart = "methodStart";
         public const string Duration = "duration";
         public const string Exception = "exception";
+        public const string ExceptionCopy = "exceptionCopy";
     }
 }

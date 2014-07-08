@@ -35,6 +35,7 @@ namespace AK.Aspects
     internal static class Constructs
     {
         public static readonly CodeExpression ReturnValueExpression;
+        public static readonly CodeExpression BoxedReturnValueExpression;
         public static readonly CodeStatement ReturnValueStatement;
         public static readonly CodeExpression TargetFieldExpression;
         public static readonly CodeExpression MethodStartExpression;
@@ -44,6 +45,7 @@ namespace AK.Aspects
         static Constructs()
         {
             ReturnValueExpression = new CodeVariableReferenceExpression(VariableNames.ReturnValue);
+            BoxedReturnValueExpression = new CodeVariableReferenceExpression(VariableNames.BoxedReturnValue);
             TargetFieldExpression =
                 new CodeFieldReferenceExpression {FieldName = VariableNames.Target};
             ReturnValueStatement =

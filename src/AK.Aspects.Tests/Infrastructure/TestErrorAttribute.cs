@@ -40,7 +40,8 @@ namespace AK.Aspects.Tests.Infrastructure
             get { return 1; }
         }
 
-        public bool Execute(MemberInfo memberInfo, IDictionary<string, object> parameters, Exception ex)
+        public bool Execute(MemberInfo memberInfo, IDictionary<string, object> parameters,
+                            ref Exception ex, ref object returnValue)
         {
             if (memberInfo.Name == TestConstants.Methods.MethodThatThrows)
             {

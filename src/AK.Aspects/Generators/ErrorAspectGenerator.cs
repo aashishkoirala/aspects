@@ -37,36 +37,89 @@ namespace AK.Aspects.Generators
     {
         public ErrorAspectGenerator(MemberInfo memberInfo) : base(memberInfo) {}
 
-        public CodeStatement GenerateForMethod()
+        public CodeStatement[] GenerateForMethod()
         {
             var methodInfo = this.MemberInfo as MethodInfo;
             if (methodInfo == null) throw new InvalidOperationException();
 
             var returnsValue = methodInfo.ReturnType != typeof (void);
 
+            var exceptionCopyStatement = new CodeVariableDeclarationStatement(
+                typeof (Exception), VariableNames.ExceptionCopy,
+                new CodeVariableReferenceExpression(VariableNames.Exception));
             var aspectInvocationExpression = this.GenerateAspectInvocationForMethod(returnsValue);
-            var throwStatement = (CodeStatement) new CodeThrowExceptionStatement();
 
-            return new CodeConditionStatement(
-                aspectInvocationExpression, throwStatement.AsArray());
+            var throwCopyStatement = new CodeThrowExceptionStatement(
+                new CodeVariableReferenceExpression(VariableNames.ExceptionCopy));
+            var throwOriginalStatement = new CodeThrowExceptionStatement();
+
+            var compareCopyExpression = new CodeBinaryOperatorExpression(
+                new CodeVariableReferenceExpression(VariableNames.Exception),
+                CodeBinaryOperatorType.IdentityEquality,
+                new CodeVariableReferenceExpression(VariableNames.ExceptionCopy));
+
+            var compareAndThrowStatement = new CodeConditionStatement(
+                compareCopyExpression, new CodeStatement[] {throwOriginalStatement},
+                new CodeStatement[] {throwCopyStatement});
+
+            var aspectInvokeAndThrowStatement = new CodeConditionStatement(
+                aspectInvocationExpression, compareAndThrowStatement);
+
+            return new CodeStatement[] {exceptionCopyStatement, aspectInvokeAndThrowStatement};
         }
 
-        public CodeStatement GenerateForPropertyGet()
+        public CodeStatement[] GenerateForPropertyGet()
         {
+            var exceptionCopyStatement = new CodeVariableDeclarationStatement(
+                typeof(Exception), VariableNames.ExceptionCopy,
+                new CodeVariableReferenceExpression(VariableNames.Exception));
+
             var aspectInvocationExpression = this.GenerateAspectInvocationForProperty(true);
-            var throwStatement = (CodeStatement) new CodeThrowExceptionStatement();
 
-            return new CodeConditionStatement(
-                aspectInvocationExpression, throwStatement.AsArray());
+            var throwCopyStatement = new CodeThrowExceptionStatement(
+                new CodeVariableReferenceExpression(VariableNames.ExceptionCopy));
+            var throwOriginalStatement = new CodeThrowExceptionStatement();
+
+            var compareCopyExpression = new CodeBinaryOperatorExpression(
+                new CodeVariableReferenceExpression(VariableNames.Exception),
+                CodeBinaryOperatorType.IdentityEquality,
+                new CodeVariableReferenceExpression(VariableNames.ExceptionCopy));
+
+            var compareAndThrowStatement = new CodeConditionStatement(
+                compareCopyExpression, new CodeStatement[] { throwOriginalStatement },
+                new CodeStatement[] { throwCopyStatement });
+
+            var aspectInvokeAndThrowStatement = new CodeConditionStatement(
+                aspectInvocationExpression, compareAndThrowStatement);
+
+            return new CodeStatement[] { exceptionCopyStatement, aspectInvokeAndThrowStatement };
         }
 
-        public CodeStatement GenerateForPropertySet()
+        public CodeStatement[] GenerateForPropertySet()
         {
-            var aspectInvocationExpression = this.GenerateAspectInvocationForProperty(false);
-            var throwStatement = (CodeStatement) new CodeThrowExceptionStatement();
+            var exceptionCopyStatement = new CodeVariableDeclarationStatement(
+                typeof(Exception), VariableNames.ExceptionCopy,
+                new CodeVariableReferenceExpression(VariableNames.Exception));
 
-            return new CodeConditionStatement(
-                aspectInvocationExpression, throwStatement.AsArray());
+            var aspectInvocationExpression = this.GenerateAspectInvocationForProperty(false);
+
+            var throwCopyStatement = new CodeThrowExceptionStatement(
+                new CodeVariableReferenceExpression(VariableNames.ExceptionCopy));
+            var throwOriginalStatement = new CodeThrowExceptionStatement();
+
+            var compareCopyExpression = new CodeBinaryOperatorExpression(
+                new CodeVariableReferenceExpression(VariableNames.Exception),
+                CodeBinaryOperatorType.IdentityEquality,
+                new CodeVariableReferenceExpression(VariableNames.ExceptionCopy));
+
+            var compareAndThrowStatement = new CodeConditionStatement(
+                compareCopyExpression, new CodeStatement[] { throwOriginalStatement },
+                new CodeStatement[] { throwCopyStatement });
+
+            var aspectInvokeAndThrowStatement = new CodeConditionStatement(
+                aspectInvocationExpression, compareAndThrowStatement);
+
+            return new CodeStatement[] { exceptionCopyStatement, aspectInvokeAndThrowStatement };
         }
 
         private CodeExpression GenerateAspectInvocationForMethod(bool returnsValue)
@@ -75,7 +128,10 @@ namespace AK.Aspects.Generators
             var aspectExecutorExpression = new CodeTypeReferenceExpression(typeof (AspectExecutor));
             var getCurrentMethodExpression = new CodeMethodInvokeExpression(
                 new CodeTypeReferenceExpression(typeof (MethodBase)), "GetCurrentMethod");
-            var exceptionParameterExpression = new CodeVariableReferenceExpression(VariableNames.Exception);
+            var exceptionExpression = new CodeVariableReferenceExpression(VariableNames.ExceptionCopy);
+            var exceptionParameterExpression = new CodeDirectionExpression(FieldDirection.Ref, exceptionExpression);
+            var returnValueExpression = new CodeDirectionExpression(
+                FieldDirection.Ref, Constructs.BoxedReturnValueExpression);
 
             return new CodeMethodInvokeExpression(
                 aspectExecutorExpression,
@@ -83,7 +139,8 @@ namespace AK.Aspects.Generators
                 Constructs.TargetFieldExpression,
                 getCurrentMethodExpression,
                 parameterDictionaryExpression,
-                exceptionParameterExpression);
+                exceptionParameterExpression,
+                returnValueExpression);
         }
 
         private CodeExpression GenerateAspectInvocationForProperty(bool isGet)
@@ -92,7 +149,10 @@ namespace AK.Aspects.Generators
             var aspectExecutorExpression = new CodeTypeReferenceExpression(typeof (AspectExecutor));
             var getCurrentMethodExpression = new CodeSnippetExpression(
                 string.Format("{0}.GetType().GetProperty(\"{1}\")", VariableNames.Target, this.MemberInfo.Name));
-            var exceptionParameterExpression = new CodeVariableReferenceExpression(VariableNames.Exception);
+            var exceptionExpression = new CodeVariableReferenceExpression(VariableNames.ExceptionCopy);
+            var exceptionParameterExpression = new CodeDirectionExpression(FieldDirection.Ref, exceptionExpression);
+            var returnValueExpression = new CodeDirectionExpression(
+                FieldDirection.Ref, Constructs.BoxedReturnValueExpression);
 
             return new CodeMethodInvokeExpression(
                 aspectExecutorExpression,
@@ -100,7 +160,8 @@ namespace AK.Aspects.Generators
                 Constructs.TargetFieldExpression,
                 getCurrentMethodExpression,
                 parameterDictionaryExpression,
-                exceptionParameterExpression);
+                exceptionParameterExpression,
+                returnValueExpression);
         }
     }
 }
