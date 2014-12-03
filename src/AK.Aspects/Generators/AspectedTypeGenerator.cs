@@ -175,6 +175,7 @@ namespace AK.Aspects.Generators
             codeCompileUnit.ReferencedAssemblies.Add(executingAssemblyLocation);
 
             foreach (var assemblyLocation in AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => !x.IsDynamic)
                 .Select(x => x.Location)
                 .Where(x => x != executingAssemblyLocation)
                 .Where(x => !string.IsNullOrWhiteSpace(x)))
