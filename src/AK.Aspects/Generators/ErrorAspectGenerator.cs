@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.Generators.ErrorAspectGenerator
+ * AK.Commons.Aspects.Generators.ErrorAspectGenerator
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -39,7 +39,7 @@ namespace AK.Aspects.Generators
 
         public CodeStatement[] GenerateForMethod()
         {
-            var methodInfo = this.MemberInfo as MethodInfo;
+            var methodInfo = this.memberInfo as MethodInfo;
             if (methodInfo == null) throw new InvalidOperationException();
 
             var returnsValue = methodInfo.ReturnType != typeof (void);
@@ -148,7 +148,7 @@ namespace AK.Aspects.Generators
             var parameterDictionaryExpression = this.GenerateParameterDictionaryExpression(isGet);
             var aspectExecutorExpression = new CodeTypeReferenceExpression(typeof (AspectExecutor));
             var getCurrentMethodExpression = new CodeSnippetExpression(
-                string.Format("{0}.GetType().GetProperty(\"{1}\")", VariableNames.Target, this.MemberInfo.Name));
+                string.Format("{0}.GetType().GetProperty(\"{1}\")", VariableNames.Target, this.memberInfo.Name));
             var exceptionExpression = new CodeVariableReferenceExpression(VariableNames.ExceptionCopy);
             var exceptionParameterExpression = new CodeDirectionExpression(FieldDirection.Ref, exceptionExpression);
             var returnValueExpression = new CodeDirectionExpression(

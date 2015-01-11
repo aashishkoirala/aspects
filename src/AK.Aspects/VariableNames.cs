@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.VariableNames
+ * AK.Commons.Aspects.VariableNames
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.

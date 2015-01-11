@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.Generators.AspectGenerator
+ * AK.Commons.Aspects.Generators.AspectGenerator
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -35,7 +35,7 @@ namespace AK.Aspects.Generators
     /// <author>Aashish Koirala</author>
     internal class AspectGenerator
     {
-        protected readonly MemberInfo MemberInfo;
+        protected readonly MemberInfo memberInfo;
 
         private EntryAspectGenerator entry;
         private ExitAspectGenerator exit;
@@ -43,22 +43,22 @@ namespace AK.Aspects.Generators
 
         public AspectGenerator(MemberInfo memberInfo)
         {
-            this.MemberInfo = memberInfo;
+            this.memberInfo = memberInfo;
         }
 
         public EntryAspectGenerator Entry
         {
-            get { return this.entry ?? (this.entry = new EntryAspectGenerator(this.MemberInfo)); }
+            get { return this.entry ?? (this.entry = new EntryAspectGenerator(this.memberInfo)); }
         }
 
         public ExitAspectGenerator Exit
         {
-            get { return this.exit ?? (this.exit = new ExitAspectGenerator(this.MemberInfo)); }
+            get { return this.exit ?? (this.exit = new ExitAspectGenerator(this.memberInfo)); }
         }
 
         public ErrorAspectGenerator Error
         {
-            get { return this.error ?? (this.error = new ErrorAspectGenerator(this.MemberInfo)); }
+            get { return this.error ?? (this.error = new ErrorAspectGenerator(this.memberInfo)); }
         }
 
         protected CodeExpression GenerateParameterDictionaryExpression(bool? isPropertyGet = false)
@@ -67,21 +67,24 @@ namespace AK.Aspects.Generators
 
             var sb = new StringBuilder();
 
-            if (this.MemberInfo is MethodInfo)
+            var methodInfo = this.memberInfo as MethodInfo;
+            var propertyInfo = this.memberInfo as PropertyInfo;
+
+            if (methodInfo != null)
             {
-                foreach (var parameterInfo in ((MethodInfo) this.MemberInfo).GetParameters())
+                foreach (var parameterInfo in methodInfo.GetParameters())
                     sb.AppendFormat("{{ \"{0}\", {0} }}, ", parameterInfo.Name);
 
                 var index = 1;
-                foreach (var type in ((MethodInfo) this.MemberInfo).GetGenericArguments())
+                foreach (var type in methodInfo.GetGenericArguments())
                 {
                     sb.AppendFormat("{{ \"T{0}\", typeof({1}) }}, ", index, type.Name);
                     index++;
                 }
             }
-            else if (this.MemberInfo is PropertyInfo)
+            else if (propertyInfo != null)
             {
-                foreach (var parameterInfo in ((PropertyInfo) this.MemberInfo).GetIndexParameters())
+                foreach (var parameterInfo in propertyInfo.GetIndexParameters())
                     sb.AppendFormat("{{ \"{0}\", {0} }}, ", parameterInfo.Name);
 
                 if (!(isPropertyGet ?? false)) sb.AppendFormat("{{ \"{0}\", {0} }}", "value");

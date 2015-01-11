@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.Generators.PropertyGenerator
+ * AK.Commons.Aspects.Generators.PropertyGenerator
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.

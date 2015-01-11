@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.Generators.EntryAspectGenerator
+ * AK.Commons.Aspects.Generators.EntryAspectGenerator
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -41,7 +41,7 @@ namespace AK.Aspects.Generators
 
         public IEnumerable<CodeStatement> GenerateForMethod()
         {
-            var methodInfo = this.MemberInfo as MethodInfo;
+            var methodInfo = this.memberInfo as MethodInfo;
             if (methodInfo == null) throw new InvalidOperationException();
 
             yield return GenerateMethodStartStatement();
@@ -66,7 +66,7 @@ namespace AK.Aspects.Generators
 
         public IEnumerable<CodeStatement> GenerateForPropertyGet()
         {
-            var propertyInfo = this.MemberInfo as PropertyInfo;
+            var propertyInfo = this.memberInfo as PropertyInfo;
             if (propertyInfo == null) throw new InvalidOperationException();
 
             yield return GenerateMethodStartStatement();
@@ -129,7 +129,7 @@ namespace AK.Aspects.Generators
             var parameterDictionaryExpression = this.GenerateParameterDictionaryExpression(isGet);
             var aspectExecutorExpression = new CodeTypeReferenceExpression(typeof (AspectExecutor));
             var getCurrentMethodExpression = new CodeSnippetExpression(
-                string.Format("{0}.GetType().GetProperty(\"{1}\")", VariableNames.Target, this.MemberInfo.Name));
+                string.Format("{0}.GetType().GetProperty(\"{1}\")", VariableNames.Target, this.memberInfo.Name));
             var returnValueExpression = new CodeDirectionExpression(
                 FieldDirection.Ref, Constructs.BoxedReturnValueExpression);
 
