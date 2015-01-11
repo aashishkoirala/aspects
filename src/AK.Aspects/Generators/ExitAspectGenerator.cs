@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.Generators.ExitAspectGenerator
+ * AK.Commons.Aspects.Generators.ExitAspectGenerator
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -40,7 +40,7 @@ namespace AK.Aspects.Generators
 
         public IEnumerable<CodeStatement> GenerateForMethod()
         {
-            var methodInfo = this.MemberInfo as MethodInfo;
+            var methodInfo = this.memberInfo as MethodInfo;
             if (methodInfo == null) throw new InvalidOperationException();
 
             yield return GenerateMethodEndStatement();
@@ -84,9 +84,8 @@ namespace AK.Aspects.Generators
             var aspectExecutorExpression = new CodeTypeReferenceExpression(typeof (AspectExecutor));
             var getCurrentMethodExpression = new CodeMethodInvokeExpression(
                 new CodeTypeReferenceExpression(typeof (MethodBase)), "GetCurrentMethod");
-            var returnValueExpression = !returnsValue
-                                            ? new CodePrimitiveExpression(null)
-                                            : Constructs.ReturnValueExpression;
+            var returnValueExpression = new CodeDirectionExpression(
+                FieldDirection.Ref, Constructs.BoxedReturnValueExpression);
 
             return new CodeMethodInvokeExpression(
                 aspectExecutorExpression,
@@ -103,10 +102,9 @@ namespace AK.Aspects.Generators
             var parameterDictionaryExpression = this.GenerateParameterDictionaryExpression(isGet);
             var aspectExecutorExpression = new CodeTypeReferenceExpression(typeof (AspectExecutor));
             var getCurrentMethodExpression = new CodeSnippetExpression(
-                string.Format("{0}.GetType().GetProperty(\"{1}\")", VariableNames.Target, this.MemberInfo.Name));
-            var returnValueExpression = !isGet
-                                            ? new CodePrimitiveExpression(null)
-                                            : Constructs.ReturnValueExpression;
+                string.Format("{0}.GetType().GetProperty(\"{1}\")", VariableNames.Target, this.memberInfo.Name));
+            var returnValueExpression = new CodeDirectionExpression(
+                FieldDirection.Ref, Constructs.BoxedReturnValueExpression);
 
             return new CodeMethodInvokeExpression(
                 aspectExecutorExpression,

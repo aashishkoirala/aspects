@@ -28,6 +28,8 @@ using System.ComponentModel.Composition;
 
 namespace AK.Aspects.Tests.Infrastructure
 {
+    // ReSharper disable ValueParameterNotUsed
+
     /// <summary>
     /// Implementation for wrapping tests.
     /// </summary>
@@ -93,6 +95,8 @@ namespace AK.Aspects.Tests.Infrastructure
             return TestConstants.ReturnMethodWithParametersReturnValue;
         }
 
+        // ReSharper disable RedundantAssignment
+
         public void MethodWithRefAndOutParameters(out string outParameter1, ref IList<int> refParameter2)
         {
             TestResultBag.MethodWithRefAndOutParametersCalled = true;
@@ -100,6 +104,8 @@ namespace AK.Aspects.Tests.Infrastructure
             outParameter1 = TestConstants.MethodWithRefAndOutParametersOutParameter1Value;
             refParameter2 = TestConstants.MethodWithRefAndOutParametersRefParameter2FinalValue;
         }
+
+        // ReSharper restore RedundantAssignment
 
         public T GenericMethod<T>(T parameter1, string parameter2)
         {
@@ -114,4 +120,6 @@ namespace AK.Aspects.Tests.Infrastructure
             throw TestConstants.MethodThatThrowsException;
         }
     }
+
+    // ReSharper restore ValueParameterNotUsed
 }

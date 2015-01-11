@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.Generators.PropertyGenerator
+ * AK.Commons.Aspects.Generators.PropertyGenerator
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -68,7 +68,6 @@ namespace AK.Aspects.Generators
             this.AssignGetAndSetStatements();
             this.AssignGetBlockWithAspectCode();
             this.AssignSetBlockWithAspectCode();
-            //this.AssignAspectAttributes();
 
             return this.propertyDeclaration;
         }
@@ -112,10 +111,10 @@ namespace AK.Aspects.Generators
 
             var entryStatements = this.aspectGenerator.Entry.GenerateForPropertyGet().ToArray();
             var exitStatements = this.aspectGenerator.Exit.GenerateForPropertyGet().ToArray();
-            var errorStatement = this.aspectGenerator.Error.GenerateForPropertyGet();
+            var errorStatements = this.aspectGenerator.Error.GenerateForPropertyGet().ToArray();
 
             var catchClause = Constructs.CatchClause;
-            catchClause.Statements.Add(errorStatement);
+            catchClause.Statements.AddRange(errorStatements);
 
             var tryCatchFinallyBlock = new CodeTryCatchFinallyStatement(
                 this.getStatements, catchClause.AsArray(), exitStatements);
@@ -128,10 +127,23 @@ namespace AK.Aspects.Generators
                 VariableNames.ReturnValue,
                 returnValueDefaultValueExpression);
 
+            var boxingSnippet = string.Format(
+                "object {0} = {1};",
+                VariableNames.BoxedReturnValue,
+                VariableNames.ReturnValue);
+
+            var boxingStatement = new CodeSnippetStatement(boxingSnippet);
+
+            var returnValueExpression = new CodeCastExpression(
+                this.contractProperty.PropertyType, Constructs.BoxedReturnValueExpression);
+
+            var returnValueStatement = new CodeMethodReturnStatement(returnValueExpression);
+
             this.propertyDeclaration.GetStatements.Add(returnValueDeclarationStatement);
+            this.propertyDeclaration.GetStatements.Add(boxingStatement);
             this.propertyDeclaration.GetStatements.AddRange(entryStatements);
             this.propertyDeclaration.GetStatements.Add(tryCatchFinallyBlock);
-            this.propertyDeclaration.GetStatements.Add(Constructs.ReturnValueStatement);
+            this.propertyDeclaration.GetStatements.Add(returnValueStatement);
         }
 
         private void AssignSetBlockWithAspectCode()
@@ -140,14 +152,19 @@ namespace AK.Aspects.Generators
 
             var entryStatements = this.aspectGenerator.Entry.GenerateForPropertySet().ToArray();
             var exitStatements = this.aspectGenerator.Exit.GenerateForPropertySet().ToArray();
-            var errorStatement = this.aspectGenerator.Error.GenerateForPropertySet();
+            var errorStatements = this.aspectGenerator.Error.GenerateForPropertySet().ToArray();
 
             var catchClause = Constructs.CatchClause;
-            catchClause.Statements.Add(errorStatement);
+            catchClause.Statements.AddRange(errorStatements);
 
             var tryCatchFinallyBlock = new CodeTryCatchFinallyStatement(
                 this.setStatements, catchClause.AsArray(), exitStatements);
 
+            var boxingSnippet = string.Format(
+                "object {0} = null;", VariableNames.BoxedReturnValue);
+            var boxingStatement = new CodeSnippetStatement(boxingSnippet);
+
+            this.propertyDeclaration.SetStatements.Add(boxingStatement);
             this.propertyDeclaration.SetStatements.AddRange(entryStatements);
             this.propertyDeclaration.SetStatements.Add(tryCatchFinallyBlock);
         }
@@ -157,6 +174,9 @@ namespace AK.Aspects.Generators
             yield return new CodeAssignStatement(
                 Constructs.ReturnValueExpression,
                 new CodePropertyReferenceExpression(Constructs.TargetFieldExpression, this.contractProperty.Name));
+
+            yield return
+                new CodeAssignStatement(Constructs.BoxedReturnValueExpression, Constructs.ReturnValueExpression);
         }
 
         private IEnumerable<CodeStatement> GetStatementsForPropertySetBlock()
@@ -171,6 +191,9 @@ namespace AK.Aspects.Generators
             yield return new CodeAssignStatement(
                 Constructs.ReturnValueExpression,
                 new CodeIndexerExpression(Constructs.TargetFieldExpression, parameterDeclarations));
+
+            yield return
+                new CodeAssignStatement(Constructs.BoxedReturnValueExpression, Constructs.ReturnValueExpression);
         }
 
         private static IEnumerable<CodeStatement> GetStatementsForIndexerSetBlock(CodeExpression[] parameterDeclarations)

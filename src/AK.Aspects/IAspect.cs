@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.IAspect
+ * AK.Commons.Aspects.IAspect
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.

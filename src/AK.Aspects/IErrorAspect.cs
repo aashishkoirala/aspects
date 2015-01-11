@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.IErrorAspect
+ * AK.Commons.Aspects.IErrorAspect
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -46,10 +46,18 @@ namespace AK.Aspects
         /// <param name="parameters">
         /// Dictionary of parameter values passed to this operation, keyed by parameter names.
         /// </param>
-        /// <param name="ex">Exception object that has been caught within the operation.</param>
+        /// <param name="ex">
+        /// Exception object that has been caught within the operation.
+        /// This can be modified by the aspect.
+        /// </param>
+        /// <param name="returnValue">
+        /// The return value of the operation, this is NULL if the method returns void,
+        /// or if we're in a property set block. This can also be modified by the aspect.
+        /// </param>
         /// <returns>
         /// Return TRUE to rethrow the caught exception. Return FALSE to not rethrow it.
         /// </returns>
-        bool Execute(MemberInfo memberInfo, IDictionary<string, object> parameters, Exception ex);
+        bool Execute(MemberInfo memberInfo, IDictionary<string, object> parameters, ref Exception ex,
+                     ref object returnValue);
     }
 }

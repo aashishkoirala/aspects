@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.AspectExecutor
+ * AK.Commons.Aspects.AspectExecutor
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -43,11 +43,13 @@ namespace AK.Aspects
         /// <param name="target">Inner target object.</param>
         /// <param name="memberInfo">MemberInfo representing current method.</param>
         /// <param name="parameters">Parameter values keyed by name.</param>
+        /// <param name="returnValue">Return value (NULL for void methods).</param>
         /// <returns>Continue rest of the method/property operation?</returns>
         public static bool ExecuteEntryAspects(
             object target,
             MemberInfo memberInfo,
-            IDictionary<string, object> parameters)
+            IDictionary<string, object> parameters,
+            ref object returnValue)
         {
             // ReSharper disable SuspiciousTypeConversion.Global
             // ReSharper disable LoopCanBeConvertedToQuery
@@ -57,20 +59,20 @@ namespace AK.Aspects
             if (target != null)
             {
                 classAspects = target.GetType().GetCustomAttributes()
-                    .Where(x => x as IEntryAspect != null)
-                    .Cast<IEntryAspect>();
+                                     .Where(x => x as IEntryAspect != null)
+                                     .Cast<IEntryAspect>();
             }
 
             var memberAspects = memberInfo.GetCustomAttributes()
-                .Where(x => x as IEntryAspect != null)
-                .Cast<IEntryAspect>();
+                                          .Where(x => x as IEntryAspect != null)
+                                          .Cast<IEntryAspect>();
 
             var aspects = classAspects.Union(memberAspects).OrderBy(x => x.Order);
 
 
             foreach (var aspect in aspects)
             {
-                var continueOperation = aspect.Execute(memberInfo, parameters);
+                var continueOperation = aspect.Execute(memberInfo, parameters, ref returnValue);
                 if (!continueOperation) return false;
             }
 
@@ -93,7 +95,7 @@ namespace AK.Aspects
             object target,
             MemberInfo memberInfo,
             IDictionary<string, object> parameters,
-            object returnValue,
+            ref object returnValue,
             TimeSpan duration)
         {
             // ReSharper disable SuspiciousTypeConversion.Global
@@ -103,18 +105,18 @@ namespace AK.Aspects
             if (target != null)
             {
                 classAspects = target.GetType().GetCustomAttributes()
-                    .Where(x => x as IExitAspect != null)
-                    .Cast<IExitAspect>();
+                                     .Where(x => x as IExitAspect != null)
+                                     .Cast<IExitAspect>();
             }
 
             var memberAspects = memberInfo.GetCustomAttributes()
-                .Where(x => x as IExitAspect != null)
-                .Cast<IExitAspect>();
+                                          .Where(x => x as IExitAspect != null)
+                                          .Cast<IExitAspect>();
 
             var aspects = classAspects.Union(memberAspects).OrderBy(x => x.Order);
 
             foreach (var aspect in aspects)
-                aspect.Execute(memberInfo, parameters, returnValue, duration);
+                aspect.Execute(memberInfo, parameters, ref returnValue, duration);
 
             // ReSharper restore SuspiciousTypeConversion.Global
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
@@ -127,12 +129,14 @@ namespace AK.Aspects
         /// <param name="memberInfo">MemberInfo representing current method.</param>
         /// <param name="parameters">Parameter values keyed by name.</param>
         /// <param name="ex">Exception that was caught.</param>
+        /// <param name="returnValue">Return value (NULL for void methods).</param>
         /// <returns>Whether to rethrow the exception.</returns>
         public static bool ExecuteErrorAspects(
             object target,
             MemberInfo memberInfo,
             IDictionary<string, object> parameters,
-            Exception ex)
+            ref Exception ex,
+            ref object returnValue)
         {
             // ReSharper disable SuspiciousTypeConversion.Global
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
@@ -141,19 +145,19 @@ namespace AK.Aspects
             if (target != null)
             {
                 classAspects = target.GetType().GetCustomAttributes()
-                    .Where(x => x as IErrorAspect != null)
-                    .Cast<IErrorAspect>();
+                                     .Where(x => x as IErrorAspect != null)
+                                     .Cast<IErrorAspect>();
             }
 
             var memberAspects = memberInfo.GetCustomAttributes()
-                .Where(x => x as IErrorAspect != null)
-                .Cast<IErrorAspect>();
+                                          .Where(x => x as IErrorAspect != null)
+                                          .Cast<IErrorAspect>();
 
             var aspects = classAspects.Union(memberAspects).OrderBy(x => x.Order);
 
             var rethrow = true;
             foreach (var aspect in aspects)
-                rethrow = aspect.Execute(memberInfo, parameters, ex);
+                rethrow = aspect.Execute(memberInfo, parameters, ref ex, ref returnValue);
 
             return rethrow;
 

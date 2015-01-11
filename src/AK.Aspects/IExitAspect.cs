@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.IExitAspect
+ * AK.Commons.Aspects.IExitAspect
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -48,13 +48,14 @@ namespace AK.Aspects
         /// </param>
         /// <param name="returnValue">
         /// The return value of the operation, this is NULL if the method returns void,
-        /// or if we're in a property set block.</param>
+        /// or if we're in a property set block. This can also be modified by the aspect.
+        /// </param>
         /// <param name="duration">
         /// TimeSpan object representing how long it took to execute the operation.
         /// </param>
         void Execute(MemberInfo memberInfo,
                      IDictionary<string, object> parameters,
-                     object returnValue,
+                     ref object returnValue,
                      TimeSpan duration);
     }
 }

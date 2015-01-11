@@ -1,5 +1,5 @@
-/*******************************************************************************************************************************
- * AK.Aspects.Tests.Infrastructure.TestErrorAttribute
+﻿/*******************************************************************************************************************************
+ * AK.Aspects.Tests.Infrastructure.IModifierContract
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -19,36 +19,15 @@
  * 
  *******************************************************************************************************************************/
 
-#region Namespace Imports
-
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-
-#endregion
-
 namespace AK.Aspects.Tests.Infrastructure
 {
     /// <summary>
-    /// Error aspect for wrapping tests.
+    /// Contract for modifier tests.
     /// </summary>
     /// <author>Aashish Koirala</author>
-    public class TestErrorAttribute : Attribute, IErrorAspect
+    public interface IModifierContract
     {
-        public int Order
-        {
-            get { return 1; }
-        }
-
-        public bool Execute(MemberInfo memberInfo, IDictionary<string, object> parameters,
-                            ref Exception ex, ref object returnValue)
-        {
-            if (memberInfo.Name == TestConstants.Methods.MethodThatThrows)
-            {
-                TestResultBag.MethodThatThrowsException = ex;
-            }
-
-            return true;
-        }
+        int DoThing(bool returnPredefinedNumber1, bool returnPredefinedNumber2, bool throwException);
+        void DoError();
     }
 }

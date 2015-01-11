@@ -55,6 +55,9 @@
     <Compile Include="Infrastructure\CreationPolicyNonSharedTestImplementation.cs" />
     <Compile Include="Infrastructure\CreationPolicySharedTestImplementation.cs" />
     <Compile Include="Infrastructure\ICreationPolicySharedTestContract.cs" />
+    <Compile Include="Infrastructure\IModifierContract.cs" />
+    <Compile Include="Infrastructure\ModifierAttribute.cs" />
+    <Compile Include="Infrastructure\ModifierImplementation.cs" />
     <Compile Include="Infrastructure\TestConstants.cs" />
     <Compile Include="Infrastructure\ITestContract.cs" />
     <Compile Include="Infrastructure\TestEntryAttribute.cs" />
@@ -63,6 +66,7 @@
     <Compile Include="Infrastructure\TestImplementation.cs" />
     <Compile Include="Infrastructure\TestMef.cs" />
     <Compile Include="Infrastructure\TestResultBag.cs" />
+    <Compile Include="Integration\ModificationTests.cs" />
     <Compile Include="Integration\MefTests.cs" />
     <Compile Include="Integration\WrappingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

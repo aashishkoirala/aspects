@@ -40,8 +40,8 @@ namespace AK.Aspects.Tests.Infrastructure
             get { return 1; }
         }
 
-        public void Execute(MemberInfo memberInfo, IDictionary<string, object> parameters, object returnValue,
-                            TimeSpan duration)
+        public void Execute(MemberInfo memberInfo, IDictionary<string, object> parameters, 
+            ref object returnValue, TimeSpan duration)
         {
             switch (memberInfo.Name)
             {

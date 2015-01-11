@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.Generators.AspectedTypeGenerator
+ * AK.Commons.Aspects.Generators.AspectedTypeGenerator
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -175,6 +175,7 @@ namespace AK.Aspects.Generators
             codeCompileUnit.ReferencedAssemblies.Add(executingAssemblyLocation);
 
             foreach (var assemblyLocation in AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => !x.IsDynamic)
                 .Select(x => x.Location)
                 .Where(x => x != executingAssemblyLocation)
                 .Where(x => !string.IsNullOrWhiteSpace(x)))

@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.IEntryAspect
+ * AK.Commons.Aspects.IEntryAspect
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -45,10 +45,14 @@ namespace AK.Aspects
         /// <param name="parameters">
         /// Dictionary of parameter values passed to this operation, keyed by parameter names.
         /// </param>
+        /// <param name="returnValue">
+        /// The return value of the operation, this is NULL if the method returns void,
+        /// or if we're in a property set block. This can also be modified by the aspect.
+        /// </param>
         /// <returns>
         /// Return TRUE to continue execution. Return FALSE to stop execution of the
         /// method/property and return the default value.
         /// </returns>
-        bool Execute(MemberInfo memberInfo, IDictionary<string, object> parameters);
+        bool Execute(MemberInfo memberInfo, IDictionary<string, object> parameters, ref object returnValue);
     }
 }

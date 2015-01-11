@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.AspectHelper
+ * AK.Commons.Aspects.AspectHelper
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.

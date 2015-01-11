@@ -3,7 +3,7 @@
   <metadata>
     <id>Aspects</id>
     <title>Aspects for .NET</title>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <authors>Aashish Koirala</authors>
     <owners>Aashish Koirala</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -14,7 +14,10 @@
       For more detailed information and documentation, please visit the GitHub page at http://aashishkoirala.github.io/aspects. You can find more of my stuff by visiting my page at http://aashishkoirala.github.io.
       The package is free to download and use. The source code is open and provided under the GPL license.
     </description>
-    <copyright>Copyright © 2014 Aashish Koirala</copyright>
+    <releaseNotes>
+      Minor changes made as part of synchronization with Commons Library.
+    </releaseNotes>
+    <copyright>Copyright © 2014-2015 Aashish Koirala</copyright>
     <projectUrl>http://aashishkoirala.github.io/aspects/</projectUrl>
     <licenseUrl>http://www.gnu.org/licenses/gpl.html</licenseUrl>
   </metadata>

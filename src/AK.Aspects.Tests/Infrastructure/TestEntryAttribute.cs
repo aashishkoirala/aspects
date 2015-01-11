@@ -40,7 +40,7 @@ namespace AK.Aspects.Tests.Infrastructure
             get { return 1; }
         }
 
-        public bool Execute(MemberInfo memberInfo, IDictionary<string, object> parameters)
+        public bool Execute(MemberInfo memberInfo, IDictionary<string, object> parameters, ref object returnValue)
         {
             switch (memberInfo.Name)
             {

@@ -1,5 +1,5 @@
 /*******************************************************************************************************************************
- * AK.Aspects.Generators.MethodGenerator
+ * AK.Commons.Aspects.Generators.MethodGenerator
  * Copyright © 2014 Aashish Koirala <http://aashishkoirala.github.io>
  * 
  * This file is part of Aspects for .NET.
@@ -76,7 +76,13 @@ namespace AK.Aspects.Generators
             this.AssignReturnValueDeclaration();
             this.AssignBodyWithAspectCode();
 
-            if (this.returnsValue) this.methodDeclaration.Statements.Add(Constructs.ReturnValueStatement);
+            if (this.returnsValue)
+            {
+                var castExpression = new CodeCastExpression(
+                    this.contractMethod.ReturnType, Constructs.BoxedReturnValueExpression);
+                var returnValueStatement = new CodeMethodReturnStatement(castExpression);
+                this.methodDeclaration.Statements.Add(returnValueStatement);
+            }
 
             this.AssignAspectAttributes();
 
@@ -135,37 +141,60 @@ namespace AK.Aspects.Generators
         {
             var entryStatements = this.aspectGenerator.Entry.GenerateForMethod().ToArray();
             var exitStatements = this.aspectGenerator.Exit.GenerateForMethod().ToArray();
-            var errorStatement = this.aspectGenerator.Error.GenerateForMethod();
+            var errorStatements = this.aspectGenerator.Error.GenerateForMethod().ToArray();
 
             this.methodDeclaration.Statements.AddRange(entryStatements);
 
             var methodInvocationStatement = (CodeStatement) new CodeExpressionStatement(this.methodInvocation);
             var methodInvocationAssignmentStatement =
                 new CodeAssignStatement(Constructs.ReturnValueExpression, this.methodInvocation);
-            var tryBodyStatement = this.returnsValue ? methodInvocationAssignmentStatement : methodInvocationStatement;
+
+            CodeStatement[] tryBodyStatements;
+            if (this.returnsValue)
+            {
+                var tryBodyStatement = methodInvocationAssignmentStatement;
+                var boxingStatement = new CodeSnippetStatement(
+                    string.Format("{0} = {1};", VariableNames.BoxedReturnValue, VariableNames.ReturnValue));
+
+                tryBodyStatements = new CodeStatement[] {tryBodyStatement, boxingStatement};
+            }
+            else
+            {
+                var tryBodyStatement = methodInvocationStatement;
+                tryBodyStatements = tryBodyStatement.AsArray();
+            }
 
             var catchClause = Constructs.CatchClause;
-            catchClause.Statements.Add(errorStatement);
+            catchClause.Statements.AddRange(errorStatements);
 
             var tryCatchFinallyBlock = new CodeTryCatchFinallyStatement(
-                tryBodyStatement.AsArray(), catchClause.AsArray(), exitStatements);
+                tryBodyStatements, catchClause.AsArray(), exitStatements);
 
             this.methodDeclaration.Statements.Add(tryCatchFinallyBlock);
         }
 
         private void AssignReturnValueDeclaration()
         {
-            if (!this.returnsValue) return;
+            string boxingSnippet;
+            if (this.returnsValue)
+            {
+                var returnValueDefaultValueExpression = new CodeDefaultValueExpression(
+                    new CodeTypeReference(this.contractMethod.ReturnType));
 
-            var returnValueDefaultValueExpression = new CodeDefaultValueExpression(
-                new CodeTypeReference(this.contractMethod.ReturnType));
+                var returnValueVariableDeclaration = new CodeVariableDeclarationStatement(
+                    this.contractMethod.ReturnType,
+                    VariableNames.ReturnValue,
+                    returnValueDefaultValueExpression);
 
-            var returnValueVariableDeclaration = new CodeVariableDeclarationStatement(
-                this.contractMethod.ReturnType,
-                VariableNames.ReturnValue,
-                returnValueDefaultValueExpression);
+                this.methodDeclaration.Statements.Add(returnValueVariableDeclaration);
 
-            this.methodDeclaration.Statements.Add(returnValueVariableDeclaration);
+                boxingSnippet = string.Format(
+                    "object {0} = {1};", VariableNames.BoxedReturnValue, VariableNames.ReturnValue);
+            }
+            else boxingSnippet = string.Format("object {0} = null;", VariableNames.BoxedReturnValue);
+
+            var boxingStatement = new CodeSnippetStatement(boxingSnippet);
+            this.methodDeclaration.Statements.Add(boxingStatement);
         }
 
         private void AssignTypeParameters()
